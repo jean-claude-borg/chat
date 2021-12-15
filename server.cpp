@@ -6,10 +6,17 @@
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
-#include "sock.h"
+#include "includes/sock.h"
 #include <pthread.h>
 #include <csignal>
 #include <chrono>
+#include <string>
+#include <iostream>
+#include "userCreation.h"
+
+#ifdef Win32
+#include <cygwin/signal.h>
+#endif
 
 void *getMessagesFromClient(void *vargp);
 void *sendMessagesToClient(void *vargp);
@@ -45,6 +52,12 @@ int main() {
 
     fprintf(stderr, "Listening on port %i...\n", PortNumber);
 
+//    std::string name = "Jean";
+//    std::string surname = "Borg";
+//    std::string username = "jdawg";
+//    std::string password = "12345";
+//    createUser(name, surname, username, password);
+
     auto previousTime = std::chrono::system_clock::now().time_since_epoch().count();
     /* a server traditionally listens indefinitely */
     while (!closeWindow) {
@@ -70,7 +83,7 @@ int main() {
                 //pthread_join(send_messages_thread_id, NULL);
 
                 //detects ctrl c
-                // sighandler_t sigHandler = signal(SIGINT, sigInterruptHandler);
+                sighandler_t sigHandler = signal(SIGINT, sigInterruptHandler);
                 previousTime = currentTime;
             }
         }

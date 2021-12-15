@@ -10,7 +10,7 @@
 #include <netdb.h>
 #include <chrono>
 #include <pthread.h>
-#include "sock.h"
+#include "includes/sock.h"
 
 void *getMessagesFromServer(void *vargp);
 void *sendMessagesToServer(void *vargp);
